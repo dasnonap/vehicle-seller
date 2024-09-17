@@ -7,12 +7,14 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
 {
     public function __construct(
         private UserRepository $userRepository,
         private EntityManagerInterface $entityManager,
+        private UserPasswordHasherInterface $userPasswordHasher,
     ) {}
 
     /**
@@ -27,7 +29,10 @@ class UserService
         $user = new User();
         $user->setFirstName($body['first_name']);
         $user->setLastName($body['last_name']);
-        $user->setPassword($body['password']);
+        $user->setPassword(
+            $this->userPasswordHasher->hashPassword($user, $body['password'])
+        );
+        $user->setRoles($body['role'] ?? []);
         $user->setEmail($body['email']);
 
         // validate user

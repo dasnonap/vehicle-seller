@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,6 +29,9 @@ class User
 
     #[ORM\Column]
     private array $roles = [];
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?AccessToken $access_token = null;
 
     public function getId(): ?int
     {
@@ -83,12 +88,40 @@ class User
 
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function eraseCredentials(): void {}
+
+    public function getAccessToken(): ?AccessToken
+    {
+        return $this->access_token;
+    }
+
+    public function setAccessToken(AccessToken $access_token): static
+    {
+        // set the owning side of the relation if necessary
+        if ($access_token->getUser() !== $this) {
+            $access_token->setUser($this);
+        }
+
+        $this->access_token = $access_token;
 
         return $this;
     }
