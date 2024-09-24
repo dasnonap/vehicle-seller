@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import Form from "../fragments/Form";
 import TextInput from "../fragments/TextInput";
+import UserStore from "../stores/userStore";
 
 function Register(){
     const {
@@ -10,7 +11,8 @@ function Register(){
     } = useForm();
 
     const handleRegisterFormSubmit = (data) => {
-        console.log(data);
+        const authStore = new UserStore(data);
+        console.log(authStore.register());
     }
     return (
         <div className="bg-red">
