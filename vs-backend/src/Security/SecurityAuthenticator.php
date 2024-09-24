@@ -31,6 +31,11 @@ class SecurityAuthenticator extends AbstractAuthenticator
     public function authenticate(Request $request): Passport
     {
         // $apiToken = $request->headers->get('X-AUTH-TOKEN');
+        // echo '<pre>';
+        // dump($apiToken);
+        // echo '</pre>';
+        // exit;
+
         // if (null === $apiToken) {
         // The token header was empty, authentication fails with HTTP Status
         // Code 401 "Unauthorized"

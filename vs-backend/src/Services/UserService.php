@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use ftp;
 use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -55,5 +56,32 @@ class UserService
     public function checkIfUserIsUnique(User $user): bool
     {
         return empty($this->userRepository->findOneBy(['email' => $user->getEmail()]));
+    }
+
+    /**
+     * Find user by credentials or fail
+     * @param Request $request the incomming request 
+     * @return User the found User
+     *
+     */
+    public function findOrFail(Request $request): User
+    {
+        $body = json_decode($request->getContent(), true);
+
+        $found_user = $this->userRepository->findOneBy(
+            [
+                'email' => $body['email'],
+            ]
+        );
+
+        if ($found_user === null) {
+            throw new LogicException('No users found with the provided email & password combination.');
+        }
+
+        if (! $this->userPasswordHasher->isPasswordValid($found_user, $body['password'])) {
+            throw new LogicException('No users found with the provided email & password combination.');
+        }
+
+        return $found_user;
     }
 }

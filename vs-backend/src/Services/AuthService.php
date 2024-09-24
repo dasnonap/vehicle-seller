@@ -37,13 +37,13 @@ class AuthService
      */
     public function invalidateAccessToken(User $user): void
     {
-        $hasUserPreviousToken = $this->accessTokenRepository->findOneBy(['user' => $user->getId()]);
+        $userAccessToken = $user->getAccessToken();
 
-        if (empty($hasUserPreviousToken)) {
+        if (empty($userAccessToken)) {
             return;
         }
 
-        $this->entityManager->remove($hasUserPreviousToken);
+        $this->entityManager->remove($userAccessToken);
         $this->entityManager->flush();
     }
 
