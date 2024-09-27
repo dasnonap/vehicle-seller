@@ -25,18 +25,8 @@ class LoginController extends AbstractController
 
             $accessToken = $this->authService->createUserToken($user);
         } catch (\Throwable $th) {
-            //throw $th;
-            echo '<pre>';
-            dump($th);
-            echo '</pre>';
-            exit;
+            throw $th;
         }
-
-        echo '<pre>';
-        dump($user, $accessToken);
-        echo '</pre>';
-        exit;
-
 
         return $this->json([
             'user' => $user->getId(),

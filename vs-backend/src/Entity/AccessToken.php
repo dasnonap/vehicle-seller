@@ -14,7 +14,7 @@ class AccessToken
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'access_token', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'access_token', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

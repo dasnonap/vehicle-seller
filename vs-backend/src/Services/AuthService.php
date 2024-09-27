@@ -19,10 +19,13 @@ class AuthService
     {
         $this->invalidateAccessToken($user);
 
+
         $userToken = new AccessToken();
         $userToken->setUser($user);
         $userToken->setToken($this->generateUserToken($user));
         $userToken->setCreatedDate(new DateTime('now'));
+
+        $user->setAccessToken($userToken);
 
         $this->entityManager->persist($userToken);
         $this->entityManager->flush();
@@ -43,6 +46,7 @@ class AuthService
             return;
         }
 
+        $userAccessToken->setUser(new User());
         $this->entityManager->remove($userAccessToken);
         $this->entityManager->flush();
     }
