@@ -4,21 +4,18 @@ namespace App\Services;
 
 use App\Entity\User;
 use App\Entity\AccessToken;
-use App\Repository\AccessTokenRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use DateTime;
 
 class AuthService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private AccessTokenRepository $accessTokenRepository,
+        private EntityManagerInterface $entityManager
     ) {}
 
     public function createUserToken(User $user): AccessToken
     {
         $this->invalidateAccessToken($user);
-
 
         $userToken = new AccessToken();
         $userToken->setUser($user);

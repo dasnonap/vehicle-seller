@@ -2,6 +2,9 @@
 
 namespace App\Security;
 
+use App\Repository\AccessTokenRepository;
+use App\Services\AuthService;
+use App\Services\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +21,10 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
  */
 class SecurityAuthenticator extends AbstractAuthenticator
 {
+    public function __construct(
+        private UserService $userService
+    ) {}
+
     /**
      * Called on every request to decide if this authenticator should be
      * used for the request. Returning `false` will cause this authenticator
@@ -30,23 +37,17 @@ class SecurityAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        // $apiToken = $request->headers->get('X-AUTH-TOKEN');
-        // echo '<pre>';
-        // dump($apiToken);
-        // echo '</pre>';
-        // exit;
+        $apiToken = $request->headers->get('X-AUTH-TOKEN');
 
-        // if (null === $apiToken) {
-        // The token header was empty, authentication fails with HTTP Status
-        // Code 401 "Unauthorized"
-        // throw new CustomUserMessageAuthenticationException('No API token provided');
-        // }
+        if (empty($apiToken)) {
+            throw new CustomUserMessageAuthenticationException('No API token provided');
+        }
 
+        $user = $this->userService->findByAccessToken($apiToken);
         // implement your own logic to get the user identifier from `$apiToken`
         // e.g. by looking up a user in the database using its API key
-        // $userIdentifier = /** ... */;
 
-        // return new SelfValidatingPassport(new UserBadge($userIdentifier));
+        return new SelfValidatingPassport(new UserBadge($user->getEmail()));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

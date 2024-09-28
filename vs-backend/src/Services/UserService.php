@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use App\Entity\AccessToken;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use ftp;
 use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
 class UserService
 {
@@ -83,5 +84,20 @@ class UserService
         }
 
         return $found_user;
+    }
+
+    public function findByAccessToken(string $token): User
+    {
+        $accessTokenRepo = $this->entityManager->getRepository(AccessToken::class);
+
+        $accessToken = $accessTokenRepo->findOneBy([
+            'token' => $token
+        ]);
+
+        if (empty($accessToken)) {
+            throw new CustomUserMessageAuthenticationException("Can't find user with provided token.");
+        }
+
+        return $accessToken->getUser();
     }
 }
