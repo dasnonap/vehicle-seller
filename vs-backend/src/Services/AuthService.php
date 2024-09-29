@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\User;
 use App\Entity\AccessToken;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use DateTime;
 
@@ -13,6 +14,11 @@ class AuthService
         private EntityManagerInterface $entityManager
     ) {}
 
+    /**
+     * Create User Token
+     * @param User $user 
+     * @return AccessToken 
+     */
     public function createUserToken(User $user): AccessToken
     {
         $this->invalidateAccessToken($user);
@@ -46,6 +52,19 @@ class AuthService
         $userAccessToken->setUser(new User());
         $this->entityManager->remove($userAccessToken);
         $this->entityManager->flush();
+    }
+
+    /**
+     * Validate User Token
+     * @param AccessToken $accessToken the token to validate
+     * @return bool whether the token is valid
+     */
+    public function validateAccessToken(AccessToken $accessToken): bool
+    {
+        $current_time = new DateTime('now');
+        $expire_time = $accessToken->getCreatedDate()->modify('+ 1 hour');
+
+        return $current_time < $expire_time;
     }
 
     private function generateUserToken(User $user): string

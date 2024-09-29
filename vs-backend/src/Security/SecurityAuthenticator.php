@@ -22,7 +22,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 class SecurityAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
-        private UserService $userService
+        private UserService $userService,
+        private AuthService $authService,
     ) {}
 
     /**
@@ -44,8 +45,13 @@ class SecurityAuthenticator extends AbstractAuthenticator
         }
 
         $user = $this->userService->findByAccessToken($apiToken);
-        // implement your own logic to get the user identifier from `$apiToken`
-        // e.g. by looking up a user in the database using its API key
+
+        if (! $this->authService->validateAccessToken($user->getAccessToken())) {
+
+            $this->authService->invalidateAccessToken($user);
+
+            throw new CustomUserMessageAuthenticationException('Token is expired');
+        }
 
         return new SelfValidatingPassport(new UserBadge($user->getEmail()));
     }
