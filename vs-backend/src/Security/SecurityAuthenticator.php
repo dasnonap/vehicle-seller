@@ -47,7 +47,6 @@ class SecurityAuthenticator extends AbstractAuthenticator
         $user = $this->userService->findByAccessToken($apiToken);
 
         if (! $this->authService->validateAccessToken($user->getAccessToken())) {
-
             $this->authService->invalidateAccessToken($user);
 
             throw new CustomUserMessageAuthenticationException('Token is expired');
