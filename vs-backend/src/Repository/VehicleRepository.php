@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Vehicle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +15,12 @@ class VehicleRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Vehicle::class);
+    }
+
+    public function fetchVehicles(string $type = 'all'): QueryBuilder
+    {
+        return $this->createQueryBuilder('v')
+            ->orderBy('v.price', 'ASC');
     }
 
     //    /**
