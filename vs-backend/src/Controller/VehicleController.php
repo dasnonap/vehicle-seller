@@ -14,7 +14,7 @@ class VehicleController extends AbstractController
         public VehicleService $vehicleService
     ) {}
 
-    #[Route('/api/vehicles', name: 'app_vehicle')]
+    #[Route('/api/vehicles', name: 'app_vehicles_index', methods: ['POST'])]
     public function index(Request $request): JsonResponse
     {
         $requestBody = json_decode($request->getContent(), true);
@@ -27,5 +27,24 @@ class VehicleController extends AbstractController
         }
 
         return $this->json($vehicles);
+    }
+
+    #[Route('/api/vehicles/create', name: 'app_vehicles_create', methods: ['POST'])]
+    public function create(Request $request): JsonResponse
+    {
+        try {
+            $vehicle = $this->vehicleService->createOrFail($request);
+
+            echo '<pre>';
+            var_dump($vehicle);
+            echo '</pre>';
+            exit;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        return $this->json([
+            'success' => 'true'
+        ]);
     }
 }
