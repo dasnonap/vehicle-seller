@@ -60,14 +60,14 @@ class VehicleService
             throw new LogicException(sprintf("Vehicle with VIN: %s, already inserted", $vehicleArgs['vin']));
         }
 
-        $vehicle = $this->getVehicleTypeClass($typeSpecs);
+        $vehicle = $this->createVehicleTypeInstance($typeSpecs);
 
+        // Set the Generic Vehicle attributes 
         $vehicle->setBrand($vehicleArgs['brand']);
         $vehicle->setModel($vehicleArgs['model']);
         $vehicle->setPrice($vehicleArgs['price']);
         $vehicle->setQuantity($vehicleArgs['quantity']);
         $vehicle->setVin($vehicleArgs['vin']);
-
 
         $this->entityManager->persist($vehicle);
         $this->entityManager->flush();
@@ -75,8 +75,12 @@ class VehicleService
         return $vehicle;
     }
 
-    // Use this to get the Mapping tables of the child Classes
-    private function getVehicleTypeClass(array $type_specs): Vehicle
+    /**
+     * Create Vehicle Type Instance Object
+     * @param array $type_specs the specific type specs for the VehicleType
+     * @return Vehicle the created instance
+     */
+    private function createVehicleTypeInstance(array $type_specs): Vehicle
     {
         $vehicleMapping = $this->entityManager->getClassMetadata(Vehicle::class)->discriminatorMap ?? [];
 
