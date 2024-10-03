@@ -67,4 +67,12 @@ class Car extends Vehicle
 
         return $this;
     }
+
+    public function initFromArray(array $args): void
+    {
+        $this->setEngineCapacity($args['engine_capacity']);
+        $this->setColour($args['colour']);
+        $this->setDoors($args['doors']);
+        $this->setCategory($args['category']);
+    }
 }

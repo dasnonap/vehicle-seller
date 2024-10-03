@@ -52,4 +52,11 @@ class Truck extends Vehicle
 
         return $this;
     }
+
+    public function initFromArray(array $args): void
+    {
+        $this->setEngineCapacity($args['engine_capacity']);
+        $this->setColour($args['colour']);
+        $this->setNumberOfBeds($args['number_of_beds']);
+    }
 }

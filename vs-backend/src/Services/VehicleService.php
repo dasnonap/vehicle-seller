@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Entity\Vehicle;
 use App\Entity\Car;
+use App\Entity\Motorcycle;
+use App\Entity\Truck;
+use App\Entity\Trailer;
 use App\Repository\VehicleRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -62,7 +65,7 @@ class VehicleService
 
         $vehicle = $this->createVehicleTypeInstance($typeSpecs);
 
-        // Set the Generic Vehicle attributes 
+        // Set the Generic Vehicle attributes
         $vehicle->setBrand($vehicleArgs['brand']);
         $vehicle->setModel($vehicleArgs['model']);
         $vehicle->setPrice($vehicleArgs['price']);
@@ -90,16 +93,19 @@ class VehicleService
             throw new LogicException('Vehicle must have type mapping.');
         }
 
-        $vehicle = null;
+        $vehicle = match ($vehicleTypeClass) {
+            Car::class => new Car(),
+            Motorcycle::class => new Motorcycle(),
+            Truck::class => new Truck(),
+            Trailer::class => new Trailer(),
+            default => null
+        };
 
-        if ($vehicleTypeClass == Car::class) {
-            $vehicle = new Car();
-
-            $vehicle->setEngineCapacity($type_specs['engine_capacity']);
-            $vehicle->setColour($type_specs['colour']);
-            $vehicle->setDoors($type_specs['doors']);
-            $vehicle->setCategory($type_specs['category']);
+        if ($vehicle === null) {
+            throw new LogicException("Couldn't create vehicle.");
         }
+
+        $vehicle->initFromArray($type_specs);
 
         return $vehicle;
     }

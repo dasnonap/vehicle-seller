@@ -37,4 +37,10 @@ class Trailer extends Vehicle
 
         return $this;
     }
+
+    public function initFromArray(array $args): void
+    {
+        $this->setLoadCapacity($args['load_capacity']);
+        $this->setNumberOfAxles($args['number_of_axles']);
+    }
 }

@@ -101,4 +101,6 @@ class Vehicle
     {
         return get_object_vars($this);
     }
+
+    public function initFromArray(array $args): void {}
 }
