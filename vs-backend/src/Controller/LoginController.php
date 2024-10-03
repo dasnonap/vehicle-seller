@@ -23,7 +23,7 @@ class LoginController extends AbstractController
     public function __construct(
         private UserService $userService,
         private AuthService $authService,
-        private Security $security,
+        private Security $security
     ) {}
 
     #[Route('/api/login', name: 'app_user_login', methods: ['POST'])]

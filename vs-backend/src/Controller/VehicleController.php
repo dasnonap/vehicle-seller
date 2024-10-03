@@ -34,11 +34,6 @@ class VehicleController extends AbstractController
     {
         try {
             $vehicle = $this->vehicleService->createOrFail($request);
-
-            echo '<pre>';
-            var_dump($vehicle);
-            echo '</pre>';
-            exit;
         } catch (\Throwable $th) {
             throw $th;
         }
