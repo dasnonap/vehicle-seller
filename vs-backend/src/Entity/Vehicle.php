@@ -32,6 +32,10 @@ class Vehicle
     #[ORM\Column(length: 511)]
     private ?string $vin = null;
 
+    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,4 +107,16 @@ class Vehicle
     }
 
     public function initFromArray(array $args): void {}
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

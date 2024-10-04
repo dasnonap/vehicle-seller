@@ -39,7 +39,7 @@ class VehicleController extends AbstractController
         }
 
         return $this->json([
-            'success' => 'true'
+            'success' => true
         ]);
     }
 }

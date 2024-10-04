@@ -15,6 +15,7 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 use LogicException;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class VehicleService
 {
@@ -23,6 +24,7 @@ class VehicleService
     public function __construct(
         public EntityManagerInterface $entityManager,
         public VehicleRepository $vehicleRepository,
+        public Security $security,
     ) {}
 
     /**
@@ -63,6 +65,8 @@ class VehicleService
             throw new LogicException(sprintf("Vehicle with VIN: %s, already inserted", $vehicleArgs['vin']));
         }
 
+        $user = $this->security->getUser();
+
         $vehicle = $this->createVehicleTypeInstance($typeSpecs);
 
         // Set the Generic Vehicle attributes
@@ -71,6 +75,8 @@ class VehicleService
         $vehicle->setPrice($vehicleArgs['price']);
         $vehicle->setQuantity($vehicleArgs['quantity']);
         $vehicle->setVin($vehicleArgs['vin']);
+
+        $vehicle->setUser($user);
 
         $this->entityManager->persist($vehicle);
         $this->entityManager->flush();
