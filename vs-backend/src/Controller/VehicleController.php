@@ -20,11 +20,7 @@ class VehicleController extends AbstractController
         $requestBody = json_decode($request->getContent(), true);
         $page = $requestBody['page'] ?? 1;
 
-        try {
-            $vehicles = $this->vehicleService->fetch($page);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $vehicles = $this->vehicleService->fetch($page);
 
         return $this->json($vehicles);
     }
@@ -32,11 +28,7 @@ class VehicleController extends AbstractController
     #[Route('/api/vehicles/create', name: 'app_vehicles_create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
-        try {
-            $vehicle = $this->vehicleService->createOrFail($request);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $vehicle = $this->vehicleService->createOrFail($request);
 
         return $this->json([
             'success' => true

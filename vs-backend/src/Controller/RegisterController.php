@@ -20,28 +20,12 @@ class RegisterController extends AbstractController
     #[Route('/api/register', name: 'app_user_register', methods: ['POST'])]
     public function register(Request $request): JsonResponse
     {
-        try {
-            $user = $this->userService->createOrFail($request);
-
-            $accessToken = $this->authService->createUserToken($user);
-        } catch (Throwable $th) {
-            return $this->handleErrors($th);
-        }
+        $user = $this->userService->createOrFail($request);
+        $accessToken = $this->authService->createUserToken($user);
 
         return $this->json([
             'user' => $user->getId(),
             'token' => $accessToken->getToken(),
         ]);
-    }
-
-    /**
-     * Handle Exception Errors
-     * @param Throwable $th the Throwable 
-     */
-    public function handleErrors(Throwable $th): JsonResponse
-    {
-        return $this->json([
-            "error" => $th->getMessage(),
-        ], 409);
     }
 }
