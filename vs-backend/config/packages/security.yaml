@@ -41,6 +41,7 @@ security:
         - { path: ^/admin/*, roles: ROLE_ADMIN }
         - { path: ^/api/vehicles/create, roles: [ROLE_CREATOR, ROLE_VIEWER] }
         - { path: ^/api/vehicles, roles: [ROLE_VIEWER]}
+        - { path: ^/api/user/like, roles: [ROLE_VIEWER]}
 
 when@test:
     security:

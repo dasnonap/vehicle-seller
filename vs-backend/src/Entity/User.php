@@ -41,9 +41,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'user')]
     private Collection $vehicles;
 
+    /**
+     * @var Collection<int, UserVehicleLike>
+     */
+    #[ORM\OneToMany(targetEntity: UserVehicleLike::class, mappedBy: 'user')]
+    private Collection $likedVehicles;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
+        $this->likedVehicles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,6 +170,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($vehicle->getUser() === $this) {
                 $vehicle->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserVehicleLike>
+     */
+    public function getLikedVehicles(): Collection
+    {
+        return $this->likedVehicles;
+    }
+
+    public function addLikedVehicle(UserVehicleLike $likedVehicle): static
+    {
+        if (!$this->likedVehicles->contains($likedVehicle)) {
+            $this->likedVehicles->add($likedVehicle);
+            $likedVehicle->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedVehicle(UserVehicleLike $likedVehicle): static
+    {
+        if ($this->likedVehicles->removeElement($likedVehicle)) {
+            // set the owning side to null (unless already changed)
+            if ($likedVehicle->getUser() === $this) {
+                $likedVehicle->setUser(null);
             }
         }
 
