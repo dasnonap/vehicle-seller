@@ -1,32 +1,19 @@
-import { reaction, makeAutoObservable } from "mobx";
-
 class User{
     // User Data
     id = null;
     first_name = '';
     last_name = '';
-    password = '';
     email = '';
+    role = [];
+    likedVehicles = [];
+    createdVehicles = []
 
-    // Store 
-    store = null;
-    saveHandler = null;
-
-    constructor(store){
-        this.store = store;
-
-        makeAutoObservable(this, {
-            this.
-        });
-
-        this.saveHandler = reaction(
-            () => this.asJson,
-            json => {
-                if (this.autoSave) {
-                    this.store.updateUser(json)
-                }
-            }
-        );
+    constructor({id, first_name, last_name, email, role}){
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.role = role;        
     }
 
     get asJson(){
@@ -34,22 +21,10 @@ class User{
             id: this.id,
             first_name: this.first_name,
             last_name: this.last_name,
-            password: this.password,
-            email: this.email
+            email: this.email,
+            role: this.role
         }
-    }
-
-    fromJson(userJsonData){
-        this.autoSave = false;
-
-        this.id = userJsonData.id;
-        this.first_name = userJsonData.first_name;
-        this.last_name = userJsonData.last_name;
-        this.password = userJsonData.password;
-        this.email = userJsonData.email;
-
-        this.autoSave = true;
-    }
-
-
+    }  
 }
+
+export default User;

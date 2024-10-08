@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import Form from "../fragments/Form";
 import TextInput from "../fragments/TextInput";
-import UserStore from "../stores/userStore";
+import authStore from "../stores/authStore";
+// import { observe } from "mobx";
 
 function Register(){
     const {
@@ -11,7 +12,8 @@ function Register(){
     } = useForm();
 
     const handleRegisterFormSubmit = (data) => {
-        const authStore = new UserStore(data);
+        authStore.setValues(data);
+
         console.log(authStore.register());
     }
     return (

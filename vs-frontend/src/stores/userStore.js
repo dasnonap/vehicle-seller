@@ -1,36 +1,26 @@
-import {makeAutoObservable, observable, action, flow} from 'mobx';
+import {makeAutoObservable, action} from 'mobx';
 import client from './client';
-
+import User from '../data/User';
 class UserStore{
-    values;
+    currentUser = null;
 
-    constructor(values){
-        makeAutoObservable(this, {
-            values: observable,
-            setValues: action,
-            reset: action,
-            login: flow,
-            register: flow,
-        });
-
-        this.values = values;
+    constructor(){
+        makeAutoObservable(this);
     }
 
-    setValues(values){
-        this.values = values;
+    getCurrentUser(){
+        return this.currentUser;
     }
-
-    reset(){
-        this.values = {};
-    }
-
-    login(){
-        
-    }
-
-    register(){
-        return client.Auth.register(this.values.first_name, this.values.last_name, this.values.password, this.values.email)
-        .then(({user}) => );
+    
+    pullUser(){
+        return client.Auth.current()
+            .then(action(
+                ({response}) => {
+                    const user = response.user;
+                    this.currentUser = new User(user.id, user.first_name, user.last_name, user.email, user.roles);
+                }
+            )
+        )
     }
 }
 
