@@ -9,10 +9,10 @@ const Home = observer(() => {
 
     const user = userStore.getCurrentUser();
 
-
+    console.log(user);
     return (
-        <h2>
-            Hello again, {user.first_name}
+        <h2 className="">
+            Hello again, {user.first_name}, {user.roles[0]}
         </h2>        
     )
 });
