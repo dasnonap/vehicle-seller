@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import Form from "../fragments/Form";
-import TextInput from "../fragments/TextInput";
+import TextControl from "../fragments/TextControl";
 import authStore from "../stores/authStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "flowbite-react";
 
 const Login = () => {
     const {
@@ -45,7 +46,7 @@ const Login = () => {
             ) : ''}
 
             <Form handleFormSubmit={handleSubmit(handleLoginFormSubmit, handleLoginFormError)}>
-                <TextInput 
+                <TextControl 
                     label={"Email"}
                     name={'email'} 
                     id={'email'} 
@@ -55,7 +56,7 @@ const Login = () => {
                     fieldError={"An email needs to be provided"}
                 />
 
-                <TextInput 
+                <TextControl 
                     label={"Password"}
                     name={'password'} 
                     id={'password'} 
@@ -65,7 +66,9 @@ const Login = () => {
                     type="password"
                     fieldError={"The password must include atleast one special char and number"}
                 />
-                <input type="submit" value={'Login'}/>
+                <Button type="submit">
+                    Login
+                </Button>
             </Form>
        </div> 
     )

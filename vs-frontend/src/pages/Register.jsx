@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import Form from "../fragments/Form";
-import TextInput from "../fragments/TextInput";
+import TextControl from "../fragments/TextControl";
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Button } from "flowbite-react";
 
 const Register = observer(() => {
     const {
@@ -42,7 +43,7 @@ const Register = observer(() => {
             ) : ''}
             
             <Form handleFormSubmit={handleSubmit(handleRegisterFormSubmit)}>
-                <TextInput 
+                <TextControl 
                     label={"First Name"}
                     name={'first_name'} 
                     id={'first_name'} 
@@ -52,7 +53,7 @@ const Register = observer(() => {
                     fieldError={"This field is required"}
                 />
 
-                <TextInput 
+                <TextControl 
                     label={"Last Name"}
                     name={'last_name'} 
                     id={'last_name'} 
@@ -62,7 +63,7 @@ const Register = observer(() => {
                     fieldError={"This field is required"}
                 />
 
-                <TextInput 
+                <TextControl 
                     label={"Email"}
                     name={'email'} 
                     id={'email'} 
@@ -72,7 +73,7 @@ const Register = observer(() => {
                     fieldError={"An email needs to be provided"}
                 />
 
-                <TextInput 
+                <TextControl 
                     label={"Password"}
                     name={'password'} 
                     id={'password'} 
@@ -82,7 +83,10 @@ const Register = observer(() => {
                     type="password"
                     fieldError={"The password must include atleast one special char and number"}
                 />
-                <input type="submit" value={'Create'}/>
+                
+                <Button type="submit" >
+                    Create Account
+                </Button>
             </Form>
         </div>
     )

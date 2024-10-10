@@ -1,4 +1,6 @@
-function TextInput(
+import { TextInput, Label } from "flowbite-react";
+
+function TextControl(
     {
         type,
         className, 
@@ -13,19 +15,17 @@ function TextInput(
 ){
     return(
         <div className={'form-group ' + className}>
-            {isFieldError && (
+            {isFieldError && 
                 <div>
                     {fieldError}
                 </div>
-            )}
+            }
 
             {label && (
-                <label htmlFor={name}>
-                    {label}
-                </label>
+                <Label htmlFor={name} value={label}/>
             )}
 
-            <input 
+            <TextInput 
                 type={type ? type : 'text'} 
                 name={name} 
                 id={id} 
@@ -37,4 +37,4 @@ function TextInput(
     )
 }
 
-export default TextInput;
+export default TextControl;
