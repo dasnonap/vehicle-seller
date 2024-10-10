@@ -1,6 +1,7 @@
 import {makeAutoObservable, action} from 'mobx';
 import client from './client';
 import User from '../data/User';
+
 class UserStore{
     currentUser = null;
 
@@ -11,18 +12,25 @@ class UserStore{
     getCurrentUser(){
         return this.currentUser;
     }
+
+    setCurrentUser(user){
+        this.currentUser = user;
+    }
     
     pullUser(){
         return client.Auth.current()
             .then(action(
-                ({response}) => {
-                    const user = response.user;
-                    this.currentUser = new User(user.id, user.first_name, user.last_name, user.email, user.roles);
+                ({data}) => {
+                    this.setCurrentUser(new User(data.user));
                 }
             )
         )
     }
+
+    forgetUser(){
+        this.currentUser = undefined;
+    }
 }
 
 
-export default UserStore;
+export default new UserStore();

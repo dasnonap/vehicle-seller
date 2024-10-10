@@ -2,25 +2,33 @@ import { useForm } from "react-hook-form";
 import Form from "../fragments/Form";
 import TextInput from "../fragments/TextInput";
 import authStore from "../stores/authStore";
-// import { observe } from "mobx";
+import { observer } from "mobx-react";
+import { useNavigate } from "react-router-dom";
 
-function Register(){
+const Register = observer(() => {
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const navigate = useNavigate();
 
-    const handleRegisterFormSubmit = (data) => {
+    const handleRegisterFormSubmit = async (data) => {
         authStore.setValues(data);
 
-        console.log(authStore.register());
+        await authStore.register();
+        
+        navigate("/home", {replace: true});
+    }
+
+    const handleRegisterFormError = (error) => {
+        console.error(error);
     }
     return (
         <div className="bg-red">
             <h1 className="text-3xl font-bold underline">Register</h1>
 
-            <Form handleFormSubmit={handleSubmit(handleRegisterFormSubmit)}>
+            <Form handleFormSubmit={handleSubmit(handleRegisterFormSubmit, handleRegisterFormError)}>
                 <TextInput 
                     label={"First Name"}
                     name={'first_name'} 
@@ -65,6 +73,6 @@ function Register(){
             </Form>
         </div>
     )
-}
+})
 
 export default Register;

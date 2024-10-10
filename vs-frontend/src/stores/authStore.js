@@ -1,6 +1,7 @@
-import { makeAutoObservable, action } from "mobx";
+import { makeAutoObservable } from "mobx";
 import client from "./client";
-import UserStore from "./userStore";
+import userStore from "./userStore";
+import commonStore from "./commonStore";
 
 class AuthStore{
     values = {
@@ -36,9 +37,26 @@ class AuthStore{
     }
 
     register(){
-        return client.Auth.register(this.values.first_name, this.values.last_name, this.values.email, this.values.password).then(({user}) => UserStore.pullUser()).catch(action((err)=>{
-            this.errors = err.message;
-        }))
+        return client.Auth.register(
+            this.values.first_name, this.values.last_name, this.values.email, this.values.password
+        ).then((response) => {
+            commonStore.setToken(response.data.token);
+        }).then(() => {
+            userStore.pullUser()
+        }).catch((error) => {
+            if (error.response) {
+                console.log(error.response.data.message);
+            } else if (error.request) {
+                console.log(error.request);
+            } else {
+                console.log('Error', error.message);
+            }
+        });
+    }
+
+    logout(){
+        commonStore.setToken(undefined);
+        userStore.forgetUser();
     }
 }
 

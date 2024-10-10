@@ -1,10 +1,15 @@
+import { makeAutoObservable } from "mobx";
 
 class CommonStore{
-    constructor(){
+    token = null;
 
+    constructor(){
+        makeAutoObservable(this);
     }
 
-
+    setToken(token){
+        this.token = token;
+    }
 }
 
-export default CommonStore;
+export default new CommonStore();
