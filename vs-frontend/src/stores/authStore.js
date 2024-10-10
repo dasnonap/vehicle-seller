@@ -39,18 +39,25 @@ class AuthStore{
     register(){
         return client.Auth.register(
             this.values.first_name, this.values.last_name, this.values.email, this.values.password
-        ).then((response) => {
+        )
+        .then((response) => {
             commonStore.setToken(response.data.token);
-        }).then(() => {
-            userStore.pullUser()
-        }).catch((error) => {
-            if (error.response) {
-                console.log(error.response.data.message);
-            } else if (error.request) {
-                console.log(error.request);
-            } else {
-                console.log('Error', error.message);
-            }
+        })
+        .catch((error) => {
+           return Promise.reject(error);
+        });
+    }
+
+    login(){
+        return client.Auth.login(
+            this.values.email,
+            this.values.password 
+        )
+        .then((response) => {
+            commonStore.setToken(response.data.token);
+        })
+        .catch((error) => {
+            return Promise.reject(error);
         });
     }
 

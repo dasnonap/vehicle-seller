@@ -32,6 +32,12 @@ const Auth = {
     },
     current: () => {
         return request.post('/user/index');
+    },
+    login: (email, password) => {
+        return request.post('/login',{
+            email: email,
+            password: password
+        });
     }
 }
 

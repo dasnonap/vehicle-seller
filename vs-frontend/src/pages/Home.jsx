@@ -2,9 +2,17 @@ import { observer } from "mobx-react"
 import userStore from "../stores/userStore";
 
 const Home = observer(() => {
+    
+    if(userStore.loadingUser){
+        return 'loading...';
+    }
+
+    const user = userStore.getCurrentUser();
+
+
     return (
         <h2>
-            Hello again, {userStore.getCurrentUser().first_name}
+            Hello again, {user.first_name}
         </h2>        
     )
 });

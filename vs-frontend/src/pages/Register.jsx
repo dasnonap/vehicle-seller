@@ -4,6 +4,7 @@ import TextInput from "../fragments/TextInput";
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Register = observer(() => {
     const {
@@ -12,23 +13,35 @@ const Register = observer(() => {
         formState: { errors },
     } = useForm();
     const navigate = useNavigate();
+    const [formErrors, setFormErrors] = useState()
 
-    const handleRegisterFormSubmit = async (data) => {
+    const handleRegisterFormSubmit = (data) => {
         authStore.setValues(data);
 
-        await authStore.register();
-        
-        navigate("/home", {replace: true});
+        authStore.register()
+        .then(() => navigate("/home", {replace: true}))
+        .catch((error) => {
+            if (error.response) {
+                setFormErrors(error.response.data.message);
+            } else if (error.request) {
+                setFormErrors(error.request);
+            } else {
+                setFormErrors('Error', error.message);
+            }
+        })
     }
 
-    const handleRegisterFormError = (error) => {
-        console.error(error);
-    }
     return (
         <div className="bg-red">
             <h1 className="text-3xl font-bold underline">Register</h1>
-
-            <Form handleFormSubmit={handleSubmit(handleRegisterFormSubmit, handleRegisterFormError)}>
+            
+            {formErrors ? (
+                <h3>
+                    {formErrors}
+                </h3>
+            ) : ''}
+            
+            <Form handleFormSubmit={handleSubmit(handleRegisterFormSubmit)}>
                 <TextInput 
                     label={"First Name"}
                     name={'first_name'} 
