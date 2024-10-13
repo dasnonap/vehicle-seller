@@ -2,7 +2,6 @@ import {makeAutoObservable, action} from 'mobx';
 import client from './client';
 import User from '../data/User';
 import commonStore from './commonStore'; 
-import { redirect } from 'react-router-dom';
 class UserStore{
     currentUser = null;
     loadingUser;
@@ -30,7 +29,6 @@ class UserStore{
                 }
             ))
             .finally(action(() => this.loadingUser = false))
-        
     }
 
     forgetUser(){
@@ -41,10 +39,7 @@ class UserStore{
         const token = commonStore.getToken();
 
         if (token) {
-            console.log(token);
             await this.pullUser()
-        } else {
-            redirect('/login');
         }
     }
 }

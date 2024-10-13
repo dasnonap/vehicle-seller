@@ -22,12 +22,13 @@ const request = {
     }
 }
 const Auth = {
-    register: (first_name, last_name, email, password) => {
+    register: (first_name, last_name, email, password, role) => {
         return request.post('/register', {
             first_name: first_name,
             last_name: last_name,
             email: email,
-            password: password
+            password: password,
+            role: role
         });
     },
     current: () => {
@@ -41,6 +42,15 @@ const Auth = {
     }
 }
 
+const Vehicles = {
+    create: (vehicle) => {
+        return request.post('/vehicles/create', {
+            ...vehicle.asJson()
+        });
+    }
+}
+
 export default {
-    Auth
+    Auth,
+    Vehicles
 };

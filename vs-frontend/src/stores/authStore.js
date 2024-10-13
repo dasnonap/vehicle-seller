@@ -8,7 +8,8 @@ class AuthStore{
         first_name: '',
         last_name: '',
         email : '',
-        password : ''
+        password : '',
+        role: ''
     };
     errors = null;
 
@@ -37,8 +38,10 @@ class AuthStore{
     }
 
     register(){
+        this.logout();
+
         return client.Auth.register(
-            this.values.first_name, this.values.last_name, this.values.email, this.values.password
+            this.values.first_name, this.values.last_name, this.values.email, this.values.password, this.values.role
         )
         .then((response) => {
             commonStore.setToken(response.data.token);
@@ -49,6 +52,8 @@ class AuthStore{
     }
 
     login(){
+        this.logout();
+        
         return client.Auth.login(
             this.values.email,
             this.values.password 

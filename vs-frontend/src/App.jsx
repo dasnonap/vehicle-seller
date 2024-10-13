@@ -1,14 +1,10 @@
 import { Outlet } from "react-router-dom"
-import Footer from "./fragments/Footer"
-import Header from "./fragments/Header"
 
 function App() {
   return (
-    <>
-      <Header />
-        <Outlet />
-      <Footer />
-    </>
+    <div className="max-w-5xl m-auto">
+      <Outlet />
+    </div>
   )
 }
 

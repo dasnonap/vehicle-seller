@@ -36,8 +36,8 @@ const Login = () => {
         console.error(error);
     }
     return (
-       <div className="bg-red">
-            <h1 className="text-3xl font-bold underlin">Login</h1>
+       <div className="flex flex-col">
+            <h1 className="text-3xl font-bold">Login</h1>
             
             {formErrors ? (
                 <h3>

@@ -6,6 +6,7 @@ import { observer } from "mobx-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "flowbite-react";
+import RadioControl from "../fragments/RadioControl";
 
 const Register = observer(() => {
     const {
@@ -82,6 +83,27 @@ const Register = observer(() => {
                     isFieldError={errors.password}
                     type="password"
                     fieldError={"The password must include atleast one special char and number"}
+                />
+
+                <RadioControl
+                    label="Register as a:"
+                    name="role"
+                    id="role"
+                    register={register('role')}
+                    values={
+                        [
+                            {
+                                value: 'ROLE_VIEWER',
+                                name: 'viewer',
+                                label: 'Viewer'
+                            },
+                            {
+                                value: 'ROLE_CREATOR',
+                                name: 'creator',
+                                label: 'Creator'
+                            }
+                        ]
+                    }
                 />
                 
                 <Button type="submit" >
