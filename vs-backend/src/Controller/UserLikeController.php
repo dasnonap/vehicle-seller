@@ -14,7 +14,7 @@ class UserLikeController extends AbstractController
         public LikeService $likeService
     ) {}
 
-    #[Route('/api/user/like/{vehicle}', name: 'app_user_like', methods: ['POST'])]
+    #[Route('/api/vehicles/{vehicle}/like', name: 'app_user_like', methods: ['GET'])]
     public function index(Vehicle $vehicle): JsonResponse
     {
         $result = $this->likeService->like($vehicle);
