@@ -1,6 +1,6 @@
 import { Radio, Label } from "flowbite-react"
 
-function RadioControl({label, name, register, values, onChange, selected}) {
+function RadioControl({label, name, register, values, onChange, selected, handleChange}) {
     const optionsList = values.map((item) =>{
         return (
             <div className="flex items-center gap-2" key={Math.random().toString()}>

@@ -16,6 +16,7 @@ const Register = observer(() => {
     } = useForm();
     const navigate = useNavigate();
     const [formErrors, setFormErrors] = useState()
+    const [role, setRole] = useState(null);
 
     const handleRegisterFormSubmit = (data) => {
         authStore.setValues(data);
@@ -33,6 +34,9 @@ const Register = observer(() => {
         })
     }
 
+    const handleOnRoleChange = (event) => {
+        setRole(event.target.value);
+    }
     return (
         <div className="bg-red">
             <h1 className="text-3xl font-bold underline">Register</h1>
@@ -43,7 +47,7 @@ const Register = observer(() => {
                 </h3>
             ) : ''}
             
-            <Form handleFormSubmit={handleSubmit(handleRegisterFormSubmit)}>
+            <Form handleFormSubmit={handleSubmit(handleRegisterFormSubmit)} className={'grid gap-3 mb-6'}>
                 <TextControl 
                     label={"First Name"}
                     name={'first_name'} 
@@ -90,6 +94,7 @@ const Register = observer(() => {
                     name="role"
                     id="role"
                     register={register('role')}
+                    selected={role}
                     values={
                         [
                             {
@@ -104,6 +109,7 @@ const Register = observer(() => {
                             }
                         ]
                     }
+                    onChange={handleOnRoleChange}
                 />
                 
                 <Button type="submit" >

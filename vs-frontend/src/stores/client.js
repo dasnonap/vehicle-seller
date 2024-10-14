@@ -58,6 +58,9 @@ const Vehicles = {
     },
     filter: () => {
         return request.get('/vehicles');
+    },
+    like: (vehicle_id) =>{
+        return request.get(`/vehicles/${vehicle_id}/like`);
     }
 }
 
