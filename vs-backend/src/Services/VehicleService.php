@@ -19,7 +19,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class VehicleService
 {
-    private int $postsPerPage = 2;
+    private int $postsPerPage = 10;
 
     public function __construct(
         public EntityManagerInterface $entityManager,
@@ -59,6 +59,7 @@ class VehicleService
     public function createOrFail(Request $request): Vehicle
     {
         $requestBody = json_decode($request->getContent(), true);
+        // dd($requestBody);
         list('vehicle_args' => $vehicleArgs, 'type_specs' => $typeSpecs) = $requestBody;
 
         if (!$this->checkIfVehicleIsInserted($vehicleArgs['vin'])) {

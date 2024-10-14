@@ -34,7 +34,7 @@ class UserService
         $user->setPassword(
             $this->userPasswordHasher->hashPassword($user, $body['password'])
         );
-        $user->setRoles($body['role'] ?? []);
+        $user->setRoles([$body['role'] ?? 'ROLE_VIEWER']);
         $user->setEmail($body['email']);
 
         // validate user

@@ -43,4 +43,16 @@ class Motorcycle extends Vehicle
         $this->setEngineCapacity($args['engine_capacity']);
         $this->setColour($args['colour']);
     }
+
+    public function toArray(): array
+    {
+        return [
+            'vehicle_specs' => parent::toArray(),
+            'type_specs' => [
+                'engine_capacity' => $this->engine_capacity,
+                'colour' => $this->colour,
+                'type' => 'Motorcycle'
+            ]
+        ];
+    }
 }

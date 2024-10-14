@@ -59,4 +59,17 @@ class Truck extends Vehicle
         $this->setColour($args['colour']);
         $this->setNumberOfBeds($args['number_of_beds']);
     }
+
+    public function toArray(): array
+    {
+        return [
+            'vehicle_specs' => parent::toArray(),
+            'type_specs' => [
+                'engine_capacity' => $this->engine_capacity,
+                'colour' => $this->colour,
+                'number_of_beds' => $this->number_of_beds,
+                'type' => 'Truck',
+            ]
+        ];
+    }
 }

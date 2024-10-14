@@ -43,4 +43,16 @@ class Trailer extends Vehicle
         $this->setLoadCapacity($args['load_capacity']);
         $this->setNumberOfAxles($args['number_of_axles']);
     }
+
+    public function toArray(): array
+    {
+        return [
+            'vehicle_specs' => parent::toArray(),
+            'type_specs' => [
+                'load_capacity' => $this->load_capacity,
+                'number_of_axels' => $this->number_of_axles,
+                'type' => 'Trailer',
+            ],
+        ];
+    }
 }

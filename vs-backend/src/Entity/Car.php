@@ -75,4 +75,18 @@ class Car extends Vehicle
         $this->setDoors($args['doors']);
         $this->setCategory($args['category']);
     }
+
+    public function toArray(): array
+    {
+        return [
+            'vehicle_specs' => parent::toArray(),
+            'type_specs' => [
+                'type' => 'Car',
+                'engine_capacity' => $this->engine_capacity,
+                'colour' => $this->colour,
+                'doors' => $this->doors,
+                'category' => $this->category
+            ]
+        ];
+    }
 }

@@ -103,7 +103,15 @@ class Vehicle
 
     public function toArray(): array
     {
-        return get_object_vars($this);
+        return [
+            'id' => $this->id,
+            'brand' => $this->brand,
+            'model' => $this->model,
+            'vin' => $this->vin,
+            'price' => $this->price,
+            'quantity' => $this->quantity,
+            'user' => sprintf('Publisher: %s %s', $this->user->getFirstName(), $this->user->getLastName()),
+        ];
     }
 
     public function initFromArray(array $args): void {}

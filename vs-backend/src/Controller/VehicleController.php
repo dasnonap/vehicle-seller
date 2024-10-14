@@ -14,7 +14,7 @@ class VehicleController extends AbstractController
         public VehicleService $vehicleService
     ) {}
 
-    #[Route('/api/vehicles', name: 'app_vehicles_index', methods: ['POST'])]
+    #[Route('/api/vehicles', name: 'app_vehicles_index', methods: ['GET'])]
     public function index(Request $request): JsonResponse
     {
         $requestBody = json_decode($request->getContent(), true);
