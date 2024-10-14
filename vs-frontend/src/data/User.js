@@ -25,6 +25,10 @@ class User{
             roles: this.roles
         }
     }  
+
+    canLike(){
+        return this.roles[0] == 'ROLE_VIEWER';
+    }
 }
 
 export default User;

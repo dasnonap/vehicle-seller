@@ -4,7 +4,7 @@ import User from '../data/User';
 import commonStore from './commonStore'; 
 class UserStore{
     currentUser = null;
-    loadingUser;
+    loadingUser = false;
 
     constructor(){
         makeAutoObservable(this);

@@ -19,6 +19,14 @@ const request = {
                 ...authHeaders()
             }
         });
+    },
+    get: (endpoint) => {
+        const url = import.meta.env.VITE_API_URL;
+        return axios.get(url + endpoint, {
+            headers:{
+                ...authHeaders()
+            }
+        })
     }
 }
 const Auth = {
@@ -47,6 +55,9 @@ const Vehicles = {
         return request.post('/vehicles/create', {
             ...vehicle.asJson()
         });
+    },
+    filter: () => {
+        return request.get('/vehicles');
     }
 }
 

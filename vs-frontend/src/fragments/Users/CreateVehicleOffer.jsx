@@ -67,7 +67,7 @@ const CreateVehicleOffer = () => {
                 </h3>
             ) : ''}
 
-            <Form handleFormSubmit={handleSubmit(handleCreateOfferSubmit)}>
+            <Form handleFormSubmit={handleSubmit(handleCreateOfferSubmit)} className={'grid gap-3 mb-6'}>
                 <TextControl 
                     label={"Brand"}
                     name={'brand'} 

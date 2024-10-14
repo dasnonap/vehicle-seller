@@ -5,15 +5,21 @@ class Vehicle{
     model = '';
     price = 0;
     quantity = 0;
+    user = '';
     type_args = [];
 
-    constructor({id, brand, vin, model, price, quantity}){
+    constructor({id, brand, vin, model, price, quantity, user}){
         this.id = id;
         this.brand = brand;
         this.vin = vin;
         this.model = model;
         this.price = price;
         this.quantity = quantity;
+        this.user = user;
+    }
+
+    setTypeArgs(args){
+        this.type_args = args;
     }
 
     asJson(){
