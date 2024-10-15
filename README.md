@@ -85,18 +85,6 @@ Ensure the following tools are installed on your machine:
    symfony server:start
    ```
 
-6. **Set up JWT authentication**:
-   - Generate the public and private keys for JWT:
-     ```bash
-     mkdir config/jwt
-     openssl genpkey -algorithm RSA -out config/jwt/private.pem -aes256
-     openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout
-     ```
-   - Configure the JWT passphrase in `.env.local`:
-     ```dotenv
-     JWT_PASSPHRASE="your_jwt_passphrase"
-     ```
-
 ---
 
 ## Frontend Setup (React + Vite)
